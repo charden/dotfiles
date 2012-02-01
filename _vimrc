@@ -1,7 +1,7 @@
 set nocompatible
 filetype off                  
 
-set rtp+=~/.vim/vundle/    
+set rtp+=~/.vim/vundle.git/    
 call vundle#rc()               
 
 " original repos on github
