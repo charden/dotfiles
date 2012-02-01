@@ -27,7 +27,7 @@ Bundle 'ujihisa/neco-look'
 filetype plugin indent on 
 noremap ; :
 noremap : ;
-
+set number
 "neocomplcache settting
 let g:neocomplcache_enable_at_startup=1
 " Disable AutoComplPop.
