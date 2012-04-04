@@ -194,4 +194,3 @@ esac
 #
 [ -f ~/.zshrc.mine ] && source ~/.zshrc.mine
 bindkey -e
-alias rm='trash'
