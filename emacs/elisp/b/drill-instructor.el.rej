@@ -1,0 +1,72 @@
+--- a/drill-instructor.el
++++ b/drill-instructor.el
+@@ -44,6 +44,16 @@
+ 
+ ;;; Code:
+ 
++(when (require 'pos-tip nil t)
++  (setq drill-instructor-pos-tip-enable t)
++  (defface drill-instructor-pos-tip
++    '((t
++       :foreground "white"
++       :background "red"))
++    "Face for description in drill-instructor-pos-tip's tooltip.")
++  (defun drill-instructor-pos-tip (str)
++    (pos-tip-show str 'drill-instructor-pos-tip nil nil)))
++
+ ;; mode
+ (defvar drill-instructor nil
+   "Enforce key-bind of Emacs.")
+@@ -120,31 +130,45 @@
+ 
+ (defun drill-instructor-alert-up ()
+   (interactive)
+-  (message "Don't use up-key!!! Press C-p!! M-p!!!"))
++  (if drill-instructor-pos-tip-enable
++      (drill-instructor-pos-tip "Don't use up-key!!! Press C-p!! M-p!!!")
++    (message "Don't use up-key!!! Press C-p!! M-p!!!")))
+ 
+ (defun drill-instructor-alert-down ()
+   (interactive)
+-  (message "Don't use down-key!!! Press C-n!! M-n!!!"))
++  (if drill-instructor-pos-tip-enable
++      (drill-instructor-pos-tip "Don't use down-key!!! Press C-n!! M-n!!!")
++    (message "Don't use down-key!!! Press C-n!! M-n!!!")))
+ 
+ (defun drill-instructor-alert-right ()
+   (interactive)
+-  (message "Don't use right-key!!! Press C-f!! C-f!!!"))
++  (if drill-instructor-pos-tip-enable
++      (drill-instructor-pos-tip "Don't use right-key!!! Press C-f!! C-f!!!")
++    (message "Don't use right-key!!! Press C-f!! C-f!!!")))
+ 
+ (defun drill-instructor-alert-left ()
+   (interactive)
+-  (message "Don't use left-key!!! Press C-b!! C-b!!!"))
++  (if drill-instructor-pos-tip-enable
++      (drill-instructor-pos-tip "Don't use left-key!!! Press C-b!! C-b!!!")
++    (message "Don't use left-key!!! Press C-b!! C-b!!!")))
+ 
+ (defun drill-instructor-alert-del ()
+   (interactive)
+-  (message "Don't use DEL!!! Press C-h!! C-h!!!"))
++  (if drill-instructor-pos-tip-enable
++      (drill-instructor-pos-tip "Don't use DEL!!! Press C-h!! C-h!!!")
++    (message "Don't use DEL!!! Press C-h!! C-h!!!")))
+ 
+ (defun drill-instructor-alert-return ()
+   (interactive)
+-  (message "Don't use RETURN!!! Press C-m!! C-m!!!"))
++  (if drill-instructor-pos-tip-enable
++      (drill-instructor-pos-tip "Don't use RETURN!!! Press C-m!! C-m!!!")
++    (message "Don't use RETURN!!! Press C-m!! C-m!!!")))
+ 
+ (defun drill-instructor-alert-tab ()
+   (interactive)
+-  (message "Don't use TAB!!! Press C-i!! C-i!!!"))
++  (if drill-instructor-pos-tip-enable
++      (drill-instructor-pos-tip "Don't use TAB!!! Press C-i!! C-i!!!")
++    (message "Don't use TAB!!! Press C-i!! C-i!!!")))
+ 
+ ;; mode provide
+ (provide 'drill-instructor)
