@@ -8,5 +8,3 @@ ln -s ~/dotfiles/.emacs.d ~/
 echo "vundle.gitのclone"
 git clone https://github.com/gmarik/vundle.git ~/.vim/vundle.git/
 
-cd ~/.vim/bundle/vimproc/
-make -f make_unix.mak
