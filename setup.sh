@@ -1,9 +1,10 @@
 #!/bin/sh
 echo "シンボリックリンクの作成"
-ln -s ~/dotfiles/_zshrc ~/.zshrc
-ln -s ~/dotfiles/_vimrc ~/.vimrc
-ln -s ~/dotfiles/vimfiles ~/.vim
-ln -s ~/dotfiles/emacs ~/.emacs
+ln -s ~/dotfiles/.zshrc ~/
+ln -s ~/dotfiles/.vimrc ~/
+ln -s ~/dotfiles/.vim ~/
+ln -s ~/dotfiles/.emacs.d ~/
 
 echo "vundle.gitのclone"
 git clone https://github.com/gmarik/vundle.git ~/.vim/vundle.git/
+
