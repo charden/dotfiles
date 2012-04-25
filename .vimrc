@@ -18,6 +18,7 @@ Bundle 'Shougo/vimshell'
 Bundle 'Shougo/vimproc'
 Bundle 'jceb/vim-orgmode'
 Bundle 'ujihisa/neco-look'
+Bundle 'gerw/vim-latex-suite'
 
 " vim-scripts repos
 Bundle 'sudo.vim'
