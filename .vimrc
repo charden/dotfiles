@@ -19,7 +19,7 @@ Bundle 'Shougo/vimproc'
 Bundle 'jceb/vim-orgmode'
 Bundle 'ujihisa/neco-look'
 Bundle 'gerw/vim-latex-suite'
-
+Bundle 'tpope/vim-fugitive'
 " vim-scripts repos
 Bundle 'sudo.vim'
 " non github repos
