@@ -1,27 +1,27 @@
 set nocompatible
-filetype off                  
+filetype off
+if has('vim_starting')
+  set runtimepath+=~/.bundle/neobundle.vim
+  call neobundle#rc(expand('~/.bundle'))
+endif
 
-set rtp+=~/.vim/vundle.git/    
-call vundle#rc()               
+NeoBundle 'Shougo/neobundle.vim.git'
+NeoBundle 'Shougo/neocomplcache'
+NeoBundle 'Shougo/unite.vim'
+NeoBundle 'Shougo/vimfiler'
+NeoBundle 'thinca/vim-ref'
+NeoBundle 'thinca/vim-quickrun'
+NeoBundle 'mattn/webapi-vim'
+NeoBundle 'mattn/unite-advent_calendar'
+NeoBundle 'tyru/open-browser.vim'
+NeoBundle 'Shougo/vimshell'
+NeoBundle 'Shougo/vimproc'
+NeoBundle 'jceb/vim-orgmode'
+NeoBundle 'ujihisa/neco-look'
+NeoBundle 'gerw/vim-latex-suite'
 
-" original repos on github
-Bundle 'gmarik/vundle'
-Bundle 'Shougo/neocomplcache'
-Bundle 'Shougo/unite.vim'
-Bundle 'Shougo/vimfiler'
-Bundle 'thinca/vim-ref'
-Bundle 'thinca/vim-quickrun'
-Bundle 'mattn/webapi-vim'
-Bundle 'mattn/unite-advent_calendar'
-Bundle 'tyru/open-browser.vim'
-Bundle 'Shougo/vimshell'
-Bundle 'Shougo/vimproc'
-Bundle 'jceb/vim-orgmode'
-Bundle 'ujihisa/neco-look'
-Bundle 'gerw/vim-latex-suite'
-Bundle 'tpope/vim-fugitive'
 " vim-scripts repos
-Bundle 'sudo.vim'
+NeoBundle 'sudo.vim'
 " non github repos
 
 filetype plugin indent on 
