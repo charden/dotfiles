@@ -1,7 +1,7 @@
 set nocompatible
 filetype off
 if has('vim_starting')
-  set runtimepath+=~/.bundle/neobundle.vim
+  set runtimepath+=~/.bundle/neobundle.vim/
   call neobundle#rc(expand('~/.bundle'))
 endif
 
@@ -19,6 +19,7 @@ NeoBundle 'Shougo/vimproc'
 NeoBundle 'jceb/vim-orgmode'
 NeoBundle 'ujihisa/neco-look'
 NeoBundle 'gerw/vim-latex-suite'
+NeoBundle 'mattn/mkdpreview-vim'
 
 " vim-scripts repos
 NeoBundle 'sudo.vim'
