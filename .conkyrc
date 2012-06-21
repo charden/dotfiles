@@ -32,18 +32,12 @@ ${font ttf-ubuntu-font-family:style=Bold:pixelsize=12}SYSTEM${font} ${hr 1}
 Kernel: $alignr$kernel
 Uptime: $alignr$uptime
 CPU0: ${alignr}${freq}MHz / ${platform coretemp.0 temp 2}C
-CPU1: ${alignr}${freq}MHz / ${platform coretemp.0 temp 3}C
-CPU2: ${alignr}${freq}MHz / ${platform coretemp.0 temp 4}C
-CPU3: ${alignr}${freq}MHz / ${platform coretemp.0 temp 5}C
+CPU1: ${alignr}${freq}MHz / ${platform coretemp.0 temp 4}C
 
 CPU0$alignr ${cpu cpu0}%
 ${cpubar cpu0}
 CPU1${alignr}${cpu cpu1}%
 ${cpubar cpu1}
-CPU2${alignr}${cpu cpu2}%
-${cpubar cpu2}
-CPU3${alignr}${cpu cpu3}%
-${cpubar cpu3}
 Ram ${alignr}$mem / $memmax ($memperc%)
 ${membar 4}
 swap ${alignr}$swap / $swapmax ($swapperc%)
