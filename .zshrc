@@ -204,7 +204,5 @@ bindkey -e
 #for mosh
 compdef mosh=ssh
 
-#
-# Show branch name in Zsh's right prompt
-#
-
+#for hub
+function git(){hub "$@"}
