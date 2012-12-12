@@ -205,4 +205,4 @@ bindkey -e
 compdef mosh=ssh
 
 #for hub
-function git(){hub "$@"}
+#function git(){hub "$@"}
