@@ -86,7 +86,7 @@ setopt share_history        # share command history data
 #
 fpath=(~/.zsh/functions/Completion ${fpath})
 autoload -U compinit
-compinit
+compinit -u
 
 
 ## zsh editor
@@ -126,7 +126,7 @@ alias du="du -h"
 alias df="df -h"
 
 alias su="su -l"
-
+alias lv="lv -c"
 case "${OSTYPE}" in
 darwin*)
     alias updateports="sudo port selfupdate; sudo port outdated"
