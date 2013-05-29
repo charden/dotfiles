@@ -202,7 +202,7 @@ NeoBundle 'sudo.vim'
  " <C-L>で検索後の強調表示を解除する
  nnoremap <C-L> :nohl<CR><C-L>
  
- noremap ; :
- noremap : ; 
+ " noremap ; :
+ "noremap : ; 
  "------------------------------------------------------------
 

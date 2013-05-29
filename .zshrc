@@ -206,3 +206,4 @@ compdef mosh=ssh
 
 #for hub
 #function git(){hub "$@"}
+alias sublime="/cygdrive/c/Program\ Files/Sublime\ Text\ 2/sublime_text.exe"
