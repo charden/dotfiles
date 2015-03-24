@@ -5,8 +5,8 @@ update
 upgrade
 
 # Add Repository
-# tap homebrew/versions
-# tap homebrew/binary
+ tap homebrew/versions
+ tap homebrew/binary
 
 # For cask
 tap phinze/homebrew-cask
@@ -33,8 +33,13 @@ cask install vagrant
 cask install virtualbox
 cask install boot2docker
 cask install android-studio
+install android-sdk
 cask install dash
 cask install alfred
+cask install smcfancontrol
+cask install clamxav
+cask install bettertouchtool
+cask install ClipMenu
 cask alfred link
 
 
