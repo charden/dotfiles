@@ -207,3 +207,63 @@ compdef mosh=ssh
 #for hub
 #function git(){hub "$@"}
 alias sublime="/cygdrive/c/Program\ Files/Sublime\ Text\ 2/sublime_text.exe"
+
+function peco-select-history() {
+    local tac
+    if which tac > /dev/null; then
+        tac="tac"
+    else
+        tac="tail -r"
+    fi
+    BUFFER=$(\history -n 1 | \
+        eval $tac | \
+        peco --query "$LBUFFER")
+    CURSOR=$#BUFFER
+    zle clear-screen
+}
+zle -N peco-select-history
+bindkey '^r' peco-select-history
+function peco-src () {
+  local selected_dir=$(ghq list -p | peco --query "$LBUFFER")
+  if [ -n "$selected_dir" ]; then
+    BUFFER="cd ${selected_dir}"
+    zle accept-line
+  fi
+  zle clear-screen
+}
+zle -N peco-src
+bindkey '^]' peco-src
+peco-find-cd() {
+  local FILENAME="$1"
+  local MAXDEPTH="${2:-3}"
+  local BASE_DIR="${3:-`pwd`}"
+
+  if [ -z "$FILENAME" ] ; then
+    echo "Usage: peco-find-cd <FILENAME> [<MAXDEPTH> [<BASE_DIR>]]" >&2
+    return 1
+  fi
+
+  local DIR=$(find ${BASE_DIR} -maxdepth ${MAXDEPTH} -name ${FILENAME} | peco | head -n 1)
+
+  if [ -n "$DIR" ] ; then
+    DIR=${DIR%/*}
+    echo "pushd \"$DIR\""
+    pushd "$DIR"
+  fi
+}
+
+peco-git-cd() {
+  peco-find-cd ".git" "$@"
+}
+
+peco-docker-cd() {
+  peco-find-cd "Dockerfile" "$@"
+}
+
+peco-vagrant-cd() {
+  peco-find-cd "Vagrantfile" "$@"
+}
+
+peco-go-cd() {
+  peco-find-cd ".git" 5 "$GOPATH"
+}

@@ -23,15 +23,9 @@ install vim
 
 
 # .dmg apps
-cask install kobito
 cask install google-chrome
 cask install google-japanese-ime
 cask install iterm2
-cask install dropbox
-cask install mou
-cask install vagrant
-cask install virtualbox
-cask install boot2docker
 cask install android-studio
 install android-sdk
 cask install dash
