@@ -3,9 +3,11 @@
 # LANG
 #
 export LANG=ja_JP.UTF-8
-## gcc
-#export CFLAGS="-march=native -mtune=native -O2 -pipe"
-#export CXXFLAGS="${CFLAGS}"
+export JAVA_HOME=/Users/takuya/Library/"Application Support"/JetBrains/Toolbox/apps/AndroidStudio/ch-0/201.7042882/"Android Studio.app"/Contents/jre/jdk/Contents/Home
+export PATH=$PATH:`pwd`/flutter/bin
+export ANDROID_HOME="/Users/takuya/Library/Android/sdk"
+export PATH=$ANDROID_HOME/bin:$PATH
+PATH=${JAVA_HOME}/bin:${PATH}
 
 ## Default shell configuration
 #
@@ -127,32 +129,6 @@ alias df="df -h"
 
 alias su="su -l"
 alias lv="lv -c"
-case "${OSTYPE}" in
-darwin*)
-    alias updateports="sudo port selfupdate; sudo port outdated"
-    alias portupgrade="sudo port upgrade installed"
-    ;;
-freebsd*)
-    case ${UID} in
-    0)
-        updateports() 
-        {
-            if [ -f /usr/ports/.portsnap.INDEX ]
-            then
-                portsnap fetch update
-            else
-                portsnap fetch extract update
-            fi
-            (cd /usr/ports/; make index)
-
-            portversion -v -l \<
-        }
-        alias appsupgrade='pkgdb -F && BATCH=YES NO_CHECKSUM=YES portupgrade -a'
-        ;;
-    esac
-    ;;
-esac
-
 
 ## terminal configuration
 #
@@ -200,9 +176,6 @@ export PATH=~/bin:$PATH
 #export CCACHE_DIR=/var/tmp/ccache
 #export CCACHE_LOGFILE=/var/log/ccache.log
 export PATH="/usr/local/bin:$PATH"
-export DOCKER_HOST=tcp://192.168.59.103:2376
-export DOCKER_CERT_PATH=/Users/licht/.boot2docker/certs/boot2docker-vm
-export DOCKER_TLS_VERIFY=1
 # peco histroy
 function peco-select-history() {
     typeset tac
@@ -217,9 +190,6 @@ function peco-select-history() {
 }
 zle -N peco-select-history
 bindkey '^r' peco-select-history
-export GOROOT=/usr/local/go
-export GOPATH=$HOME/go
-export PATH=$PATH:$GOROOT/bin:$GOPATH/bin
 
 # VCSの情報を取得するzshの便利関数 vcs_infoを使う
 autoload -Uz vcs_info
@@ -237,7 +207,8 @@ precmd () {
 
 # バージョン管理されているディレクトリにいれば表示，そうでなければ非表示
 RPROMPT="%1(v|%F{green}%1v%f|)"
-export PATH=$PATH:/Users/ogawa/Library/Android/sdk/platform-tools
+export PATH=$PATH:/Users/takuya/Library/Android/sdk/platform-tools
+export PATH=$PATH:/Users/takuya/flutter
 source ~/.zsh.d/z.sh
 function peco-z-search
 {
@@ -256,3 +227,25 @@ function peco-z-search
 }
 zle -N peco-z-search
 bindkey '^f' peco-z-search
+
+# tabtab source for serverless package
+# uninstall by removing these lines or running `tabtab uninstall serverless`
+[[ -f /usr/local/lib/node_modules/serverless/node_modules/tabtab/.completions/serverless.zsh ]] && . /usr/local/lib/node_modules/serverless/node_modules/tabtab/.completions/serverless.zsh
+# tabtab source for sls package
+# uninstall by removing these lines or running `tabtab uninstall sls`
+[[ -f /usr/local/lib/node_modules/serverless/node_modules/tabtab/.completions/sls.zsh ]] && . /usr/local/lib/node_modules/serverless/node_modules/tabtab/.completions/sls.zsh
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f '/Users/takuya/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/takuya/google-cloud-sdk/path.zsh.inc'; fi
+
+# The next line enables shell command completion for gcloud.
+if [ -f '/Users/takuya/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/takuya/google-cloud-sdk/completion.zsh.inc'; fi
+
+export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
+
+# tabtab source for slss package
+# uninstall by removing these lines or running `tabtab uninstall slss`
+[[ -f /usr/local/lib/node_modules/serverless/node_modules/tabtab/.completions/slss.zsh ]] && . /usr/local/lib/node_modules/serverless/node_modules/tabtab/.completions/slss.zshexport PATH="/usr/local/sbin:$PATH"
+
+# tabtab source for packages
+# uninstall by removing these lines
+[[ -f ~/.config/tabtab/__tabtab.zsh ]] && . ~/.config/tabtab/__tabtab.zsh || true

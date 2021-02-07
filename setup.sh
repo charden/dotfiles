@@ -2,5 +2,4 @@
 echo "シンボリックリンクの作成"
 ln -s ~/dotfiles/.zshrc ~/
 
-echo ".bundleの作成"
-
+git clone git://github.com/rupa/z .zsh.d
