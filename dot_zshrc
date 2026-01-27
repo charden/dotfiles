@@ -1,0 +1,49 @@
+## Environment variable configuration
+#
+# LANG
+#
+export LANG=ja_JP.UTF-8
+
+# PATH
+source ~/.config/zsh/path.zsh
+
+# auto change directory
+#
+setopt auto_cd
+
+# auto directory pushd that you can get dirs list by cd -[tab]
+#
+setopt auto_pushd
+
+# command correct edition before each completion attempt
+#
+setopt correct
+
+# compacked complete list display
+#
+setopt list_packed
+
+# no remove postfix slash of command line
+#
+setopt noautoremoveslash
+
+# no beep sound when complete list displayed
+#
+setopt nolistbeep
+
+
+# Command history configuration
+HISTSIZE=10000
+SAVEHIST=10000
+setopt hist_ignore_dups     # ignore duplication command history list
+
+# Completion configuration
+fpath=(~/.zsh/functions/Completion ${fpath})
+autoload -U compinit
+compinit -u
+
+# starship
+eval "$(starship init zsh)"
+
+# Functions
+source ~/.config/zsh/functions.zsh
