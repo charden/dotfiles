@@ -22,7 +22,7 @@ ghq-fzf_change_directory() {
 }
 
 zle -N ghq-fzf_change_directory
-bindkey '^f' ghq-fzf_change_directory
+bindkey '^g' ghq-fzf_change_directory
 
 # fzf history
 function fzf-select-history() {
