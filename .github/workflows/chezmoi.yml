@@ -1,0 +1,50 @@
+name: Chezmoi CI
+
+on:
+  push:
+    branches:
+      - main
+      - 'claude/**'
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  chezmoi-apply:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install chezmoi
+        run: |
+          sh -c "$(curl -fsLS get.chezmoi.io)" -- -b $HOME/.local/bin
+
+      - name: Setup chezmoi config
+        run: |
+          mkdir -p $HOME/.config/chezmoi
+          cat > $HOME/.config/chezmoi/chezmoi.toml << 'EOF'
+          [data]
+          gitUsername = "ci-test"
+          gitEmail = "ci-test@example.com"
+          EOF
+
+      - name: Initialize chezmoi with local source
+        run: |
+          $HOME/.local/bin/chezmoi init --source=$GITHUB_WORKSPACE
+
+      - name: Dry run chezmoi apply
+        run: |
+          $HOME/.local/bin/chezmoi apply --dry-run --verbose
+
+      - name: Apply chezmoi
+        run: |
+          $HOME/.local/bin/chezmoi apply --verbose
+
+      - name: Verify applied files
+        run: |
+          echo "=== Checking applied files ==="
+          ls -la $HOME/.zshrc
+          ls -la $HOME/.gitconfig
+          ls -la $HOME/.config/zsh/
+          ls -la $HOME/.config/git/
