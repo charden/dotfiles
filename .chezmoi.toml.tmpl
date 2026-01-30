@@ -1,0 +1,7 @@
+{{/* prompt for user specific configuration */}}
+{{- $gitUsername := promptStringOnce . "gitUsername" "GitHub username" -}}{{/* set the github username */}}
+{{- $gitEmail := promptStringOnce . "gitEmail" "GitHub useremail" -}}{{/* set the github useremail */}}
+
+[data]
+gitUsername = {{ $gitUsername | quote }}
+gitEmail = {{ $gitEmail | quote }}
