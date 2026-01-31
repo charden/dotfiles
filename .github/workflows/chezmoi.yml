@@ -40,8 +40,19 @@ jobs:
 
       - name: Verify applied files
         run: |
-          echo "=== Checking applied files ==="
-          ls -la $HOME/.zshrc
-          ls -la $HOME/.gitconfig
-          ls -la $HOME/.config/zsh/
-          ls -la $HOME/.config/git/
+          set -e
+          echo "=== Verifying applied files ==="
+
+          # Check required files exist
+          test -f $HOME/.zshrc || { echo "ERROR: .zshrc not found"; exit 1; }
+          test -f $HOME/.gitconfig || { echo "ERROR: .gitconfig not found"; exit 1; }
+          test -f $HOME/.config/zsh/aliases.zsh || { echo "ERROR: aliases.zsh not found"; exit 1; }
+          test -f $HOME/.config/zsh/functions.zsh || { echo "ERROR: functions.zsh not found"; exit 1; }
+          test -f $HOME/.config/zsh/path.zsh || { echo "ERROR: path.zsh not found"; exit 1; }
+          test -f $HOME/.config/git/ignore || { echo "ERROR: git/ignore not found"; exit 1; }
+
+          # Verify template variables were expanded correctly
+          grep -q "ci-test@example.com" $HOME/.gitconfig || { echo "ERROR: gitEmail not expanded in .gitconfig"; exit 1; }
+          grep -q "ci-test" $HOME/.gitconfig || { echo "ERROR: gitUsername not expanded in .gitconfig"; exit 1; }
+
+          echo "All verifications passed"
