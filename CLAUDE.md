@@ -19,7 +19,7 @@ This is a personal dotfiles repository managed with **chezmoi**. It configures a
 ├── dot_zshrc               # Main Zsh configuration
 └── dot_config/
     ├── mise/
-    │   └── config.toml.tmpl # mise tool versions (OS-conditional)
+    │   └── config.toml     # mise tool versions
     ├── zsh/
     │   ├── aliases.zsh     # Command aliases (conditional on eza availability)
     │   ├── functions.zsh   # Custom functions (fzf integrations, key bindings)
@@ -87,15 +87,11 @@ When modifying `.tmpl` files:
 ### Tool Management with mise
 Tools are managed using **mise** (a polyglot tool version manager):
 
-**All platforms** (`~/.config/mise/config.toml`):
+**Tools** (`~/.config/mise/config.toml`):
 - `fzf` - Fuzzy finder
 - `ghq` - Repository manager
 - `jq` - JSON processor
 - `starship` - Shell prompt
-
-**macOS only**:
-- `tmux` - Terminal multiplexer
-- `wget` - File downloader
 
 mise is automatically installed via `run_after_install-mise.sh` when running `chezmoi apply`.
 
