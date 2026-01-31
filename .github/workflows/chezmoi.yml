@@ -62,21 +62,16 @@ jobs:
           zsh -n $HOME/.config/zsh/path.zsh
           echo "Zsh syntax check passed"
 
-      - name: Verify mise doctor
+      - name: Verify mise
         run: |
-          echo "=== Running mise doctor (${{ matrix.shell }}) ==="
-          ${{ matrix.shell }} -c "source $HOME/.${{ matrix.shell }}rc && mise doctor"
-          echo "mise doctor passed"
-
-      - name: Verify mise tools installed
-        run: |
-          echo "=== Verifying mise tools (${{ matrix.shell }}) ==="
+          echo "=== Verifying mise (${{ matrix.shell }}) ==="
           ${{ matrix.shell }} -c "
             source $HOME/.${{ matrix.shell }}rc
+            mise doctor
             mise list
             command -v fzf
             command -v ghq
             command -v jq
             command -v starship
           "
-          echo "All mise tools verified"
+          echo "mise verification passed"
