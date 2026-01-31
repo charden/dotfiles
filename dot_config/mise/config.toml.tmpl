@@ -1,0 +1,9 @@
+[tools]
+fzf = "latest"
+ghq = "latest"
+jq = "latest"
+starship = "latest"
+{{- if eq .chezmoi.os "darwin" }}
+tmux = "latest"
+wget = "latest"
+{{- end }}

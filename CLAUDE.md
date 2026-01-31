@@ -12,14 +12,14 @@ This is a personal dotfiles repository managed with **chezmoi**. It configures a
 /home/user/dotfiles/
 ├── .chezmoi.toml.tmpl      # Chezmoi config template (prompts for git credentials)
 ├── .chezmoiignore          # Files excluded from chezmoi apply
-├── Brewfile                # Homebrew packages (mise, tmux, wget)
+├── Brewfile.tmpl           # Homebrew packages template (mise only)
 ├── README.md               # User documentation
 ├── CLAUDE.md               # This file - AI assistant guide
 ├── dot_gitconfig.tmpl      # Git config template (uses chezmoi variables)
 ├── dot_zshrc               # Main Zsh configuration
 └── dot_config/
     ├── mise/
-    │   └── config.toml     # mise tool versions (fzf, ghq, jq, starship)
+    │   └── config.toml.tmpl # mise tool versions (OS-conditional)
     ├── zsh/
     │   ├── aliases.zsh     # Command aliases (conditional on eza availability)
     │   ├── functions.zsh   # Custom functions (fzf integrations, key bindings)
@@ -87,16 +87,17 @@ When modifying `.tmpl` files:
 ### Tool Management with mise
 Tools are managed using **mise** (a polyglot tool version manager):
 
-**Tools managed by mise** (`~/.config/mise/config.toml`):
+**All platforms** (`~/.config/mise/config.toml`):
 - `fzf` - Fuzzy finder
 - `ghq` - Repository manager
 - `jq` - JSON processor
 - `starship` - Shell prompt
 
-**Tools installed via Homebrew** (system dependencies):
-- `mise` - Tool version manager itself
+**macOS only**:
 - `tmux` - Terminal multiplexer
 - `wget` - File downloader
+
+**Homebrew**: Only `mise` itself is installed via Homebrew.
 
 Key mise commands:
 ```bash
