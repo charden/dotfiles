@@ -33,6 +33,7 @@ jobs:
 
           # Check required files exist
           test -f $HOME/.zshrc || { echo "ERROR: .zshrc not found"; exit 1; }
+          test -f $HOME/.bashrc || { echo "ERROR: .bashrc not found"; exit 1; }
           test -f $HOME/.gitconfig || { echo "ERROR: .gitconfig not found"; exit 1; }
           test -f $HOME/.config/zsh/aliases.zsh || { echo "ERROR: aliases.zsh not found"; exit 1; }
           test -f $HOME/.config/zsh/functions.zsh || { echo "ERROR: functions.zsh not found"; exit 1; }
@@ -54,10 +55,18 @@ jobs:
           zsh -n $HOME/.config/zsh/path.zsh
           echo "Zsh syntax check passed"
 
+      - name: Verify mise doctor
+        run: |
+          echo "=== Running mise doctor ==="
+          source $HOME/.bashrc
+          mise doctor
+          echo "mise doctor passed"
+
       - name: Verify mise tools installed
         run: |
           echo "=== Verifying mise tools ==="
-          $HOME/.local/bin/mise list
+          source $HOME/.bashrc
+          mise list
           command -v fzf || { echo "ERROR: fzf not installed"; exit 1; }
           command -v ghq || { echo "ERROR: ghq not installed"; exit 1; }
           command -v jq || { echo "ERROR: jq not installed"; exit 1; }

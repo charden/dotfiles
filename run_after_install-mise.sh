@@ -6,9 +6,9 @@ if ! command -v mise &> /dev/null; then
   curl https://mise.run | sh
 fi
 
-# Activate mise for current bash session
-if [ -f "$HOME/.local/bin/mise" ]; then
-  eval "$($HOME/.local/bin/mise activate bash)"
+# Source bashrc to activate mise
+if [ -f "$HOME/.bashrc" ]; then
+  source "$HOME/.bashrc"
 fi
 
 # Install tools defined in mise config
