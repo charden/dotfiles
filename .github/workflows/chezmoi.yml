@@ -14,6 +14,7 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest, macos-latest]
+        shell: [bash, zsh]
     runs-on: ${{ matrix.os }}
     steps:
       - name: Checkout repository
@@ -23,6 +24,7 @@ jobs:
         env:
           GIT_USERNAME: ci-test
           GIT_EMAIL: ci-test@example.com
+          SHELL: /bin/${{ matrix.shell }}
         run: |
           sh -c "$(curl -fsLS get.chezmoi.io)" -- init --apply -S .
 
@@ -48,6 +50,7 @@ jobs:
           echo "All verifications passed"
 
       - name: Verify zsh config syntax
+        if: matrix.shell == 'zsh'
         run: |
           zsh -n $HOME/.zshrc
           zsh -n $HOME/.config/zsh/aliases.zsh
@@ -57,18 +60,26 @@ jobs:
 
       - name: Verify mise doctor
         run: |
-          echo "=== Running mise doctor ==="
-          source $HOME/.bashrc
-          mise doctor
+          echo "=== Running mise doctor (${{ matrix.shell }}) ==="
+          if [ "${{ matrix.shell }}" = "zsh" ]; then
+            zsh -c "source $HOME/.zshrc && mise doctor"
+          else
+            source $HOME/.bashrc
+            mise doctor
+          fi
           echo "mise doctor passed"
 
       - name: Verify mise tools installed
         run: |
-          echo "=== Verifying mise tools ==="
-          source $HOME/.bashrc
-          mise list
-          command -v fzf || { echo "ERROR: fzf not installed"; exit 1; }
-          command -v ghq || { echo "ERROR: ghq not installed"; exit 1; }
-          command -v jq || { echo "ERROR: jq not installed"; exit 1; }
-          command -v starship || { echo "ERROR: starship not installed"; exit 1; }
+          echo "=== Verifying mise tools (${{ matrix.shell }}) ==="
+          if [ "${{ matrix.shell }}" = "zsh" ]; then
+            zsh -c "source $HOME/.zshrc && mise list && command -v fzf && command -v ghq && command -v jq && command -v starship"
+          else
+            source $HOME/.bashrc
+            mise list
+            command -v fzf || { echo "ERROR: fzf not installed"; exit 1; }
+            command -v ghq || { echo "ERROR: ghq not installed"; exit 1; }
+            command -v jq || { echo "ERROR: jq not installed"; exit 1; }
+            command -v starship || { echo "ERROR: starship not installed"; exit 1; }
+          fi
           echo "All mise tools verified"
