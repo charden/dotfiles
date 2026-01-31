@@ -6,28 +6,20 @@ if ! command -v mise &> /dev/null; then
   curl https://mise.run | sh
 fi
 
-# Source shell rc to activate mise based on current shell
+# Activate mise and install tools based on current shell
 case "$SHELL" in
   */zsh)
-    if [ -f "$HOME/.zshrc" ]; then
-      source "$HOME/.zshrc"
-    fi
+    echo "Installing mise tools (zsh)..."
+    zsh -c "source $HOME/.zshrc && mise install"
     ;;
   */bash)
-    if [ -f "$HOME/.bashrc" ]; then
-      source "$HOME/.bashrc"
-    fi
+    echo "Installing mise tools (bash)..."
+    source "$HOME/.bashrc"
+    mise install
     ;;
   *)
-    # Fallback: try bashrc
-    if [ -f "$HOME/.bashrc" ]; then
-      source "$HOME/.bashrc"
-    fi
+    echo "Installing mise tools (fallback)..."
+    eval "$($HOME/.local/bin/mise activate bash)"
+    mise install
     ;;
 esac
-
-# Install tools defined in mise config
-if command -v mise &> /dev/null; then
-  echo "Installing mise tools..."
-  mise install
-fi
