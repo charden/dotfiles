@@ -14,15 +14,21 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest, macos-latest]
+        shell: [bash, zsh]
     runs-on: ${{ matrix.os }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v6
 
+      - name: Install zsh (Ubuntu)
+        if: matrix.os == 'ubuntu-latest' && matrix.shell == 'zsh'
+        run: sudo apt-get update && sudo apt-get install -y zsh
+
       - name: Install and apply chezmoi
         env:
           GIT_USERNAME: ci-test
           GIT_EMAIL: ci-test@example.com
+          SHELL: /bin/${{ matrix.shell }}
         run: |
           sh -c "$(curl -fsLS get.chezmoi.io)" -- init --apply -S .
 
@@ -33,14 +39,39 @@ jobs:
 
           # Check required files exist
           test -f $HOME/.zshrc || { echo "ERROR: .zshrc not found"; exit 1; }
+          test -f $HOME/.bashrc || { echo "ERROR: .bashrc not found"; exit 1; }
           test -f $HOME/.gitconfig || { echo "ERROR: .gitconfig not found"; exit 1; }
           test -f $HOME/.config/zsh/aliases.zsh || { echo "ERROR: aliases.zsh not found"; exit 1; }
           test -f $HOME/.config/zsh/functions.zsh || { echo "ERROR: functions.zsh not found"; exit 1; }
           test -f $HOME/.config/zsh/path.zsh || { echo "ERROR: path.zsh not found"; exit 1; }
           test -f $HOME/.config/git/ignore || { echo "ERROR: git/ignore not found"; exit 1; }
+          test -f $HOME/.config/mise/config.toml || { echo "ERROR: mise/config.toml not found"; exit 1; }
 
           # Verify template variables were expanded correctly
           grep -q "ci-test@example.com" $HOME/.gitconfig || { echo "ERROR: gitEmail not expanded in .gitconfig"; exit 1; }
           grep -q "ci-test" $HOME/.gitconfig || { echo "ERROR: gitUsername not expanded in .gitconfig"; exit 1; }
 
           echo "All verifications passed"
+
+      - name: Verify zsh config syntax
+        if: matrix.shell == 'zsh'
+        run: |
+          zsh -n $HOME/.zshrc
+          zsh -n $HOME/.config/zsh/aliases.zsh
+          zsh -n $HOME/.config/zsh/functions.zsh
+          zsh -n $HOME/.config/zsh/path.zsh
+          echo "Zsh syntax check passed"
+
+      - name: Verify mise
+        run: |
+          echo "=== Verifying mise (${{ matrix.shell }}) ==="
+          ${{ matrix.shell }} -c "
+            source $HOME/.${{ matrix.shell }}rc
+            mise doctor
+            mise list
+            command -v fzf
+            command -v ghq
+            command -v jq
+            command -v starship
+          "
+          echo "mise verification passed"

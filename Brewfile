@@ -1,6 +1,0 @@
-brew "fzf"
-brew "ghq"
-brew "jq"
-brew "starship"
-brew "tmux"
-brew "wget"
