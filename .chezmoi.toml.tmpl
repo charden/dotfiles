@@ -1,6 +1,5 @@
-{{/* prompt for user specific configuration */}}
-{{- $gitUsername := promptStringOnce . "gitUsername" "GitHub username" -}}{{/* set the github username */}}
-{{- $gitEmail := promptStringOnce . "gitEmail" "GitHub useremail" -}}{{/* set the github useremail */}}
+{{- $gitUsername := or (env "GIT_USERNAME") (promptStringOnce . "gitUsername" "GitHub username") -}}
+{{- $gitEmail := or (env "GIT_EMAIL") (promptStringOnce . "gitEmail" "GitHub email") -}}
 
 [data]
 gitUsername = {{ $gitUsername | quote }}
