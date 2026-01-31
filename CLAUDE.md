@@ -12,7 +12,7 @@ This is a personal dotfiles repository managed with **chezmoi**. It configures a
 /home/user/dotfiles/
 ├── .chezmoi.toml.tmpl      # Chezmoi config template (prompts for git credentials)
 ├── .chezmoiignore          # Files excluded from chezmoi apply
-├── Brewfile.tmpl           # Homebrew packages template (mise only)
+├── run_after_install-mise.sh # Installs mise and tools after chezmoi apply
 ├── README.md               # User documentation
 ├── CLAUDE.md               # This file - AI assistant guide
 ├── dot_gitconfig.tmpl      # Git config template (uses chezmoi variables)
@@ -97,7 +97,7 @@ Tools are managed using **mise** (a polyglot tool version manager):
 - `tmux` - Terminal multiplexer
 - `wget` - File downloader
 
-**Homebrew**: Only `mise` itself is installed via Homebrew.
+mise is automatically installed via `run_after_install-mise.sh` when running `chezmoi apply`.
 
 Key mise commands:
 ```bash
