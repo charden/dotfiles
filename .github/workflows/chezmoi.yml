@@ -20,12 +20,17 @@ jobs:
         run: |
           sh -c "$(curl -fsLS get.chezmoi.io)" -- -b $HOME/.local/bin
 
+      - name: Setup chezmoi sourceDir
+        run: |
+          mkdir -p $HOME/.config/chezmoi
+          echo "sourceDir = \"$GITHUB_WORKSPACE\"" > $HOME/.config/chezmoi/chezmoi.toml
+
       - name: Initialize chezmoi
         env:
           GIT_USERNAME: ci-test
           GIT_EMAIL: ci-test@example.com
         run: |
-          $HOME/.local/bin/chezmoi init --source=$GITHUB_WORKSPACE
+          $HOME/.local/bin/chezmoi init
 
       - name: Dry run chezmoi apply
         run: |
