@@ -71,9 +71,12 @@ jobs:
       - name: Verify mise tools installed
         run: |
           echo "=== Verifying mise tools (${{ matrix.shell }}) ==="
-          ${{ matrix.shell }} -c "source $HOME/.${{ matrix.shell }}rc && mise list"
-          ${{ matrix.shell }} -c "source $HOME/.${{ matrix.shell }}rc && command -v fzf"
-          ${{ matrix.shell }} -c "source $HOME/.${{ matrix.shell }}rc && command -v ghq"
-          ${{ matrix.shell }} -c "source $HOME/.${{ matrix.shell }}rc && command -v jq"
-          ${{ matrix.shell }} -c "source $HOME/.${{ matrix.shell }}rc && command -v starship"
+          ${{ matrix.shell }} -c "
+            source $HOME/.${{ matrix.shell }}rc
+            mise list
+            command -v fzf
+            command -v ghq
+            command -v jq
+            command -v starship
+          "
           echo "All mise tools verified"
