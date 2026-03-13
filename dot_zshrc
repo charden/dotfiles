@@ -47,6 +47,10 @@ fpath=(~/.zsh/functions/Completion ${fpath})
 autoload -U compinit
 compinit -u
 
+if command -v mise &> /dev/null; then
+  eval "$(mise completion zsh)"
+fi
+
 # starship
 eval "$(starship init zsh)"
 
