@@ -1,7 +1,9 @@
 {{ if eq .chezmoi.os "darwin" -}}
 #!/bin/bash
 
+{{- $profileBrewfile := printf "Brewfile.%s" .profile }}
 # Brewfile hash: {{ include "Brewfile" | sha256sum }}
+# {{ $profileBrewfile }} hash: {{ include $profileBrewfile | sha256sum }}
 
 if [ -n "$CI" ]; then
   echo "Skipping brew bundle in CI"
@@ -14,4 +16,5 @@ if ! command -v brew &> /dev/null; then
 fi
 
 brew bundle --file={{ joinPath .chezmoi.sourceDir "Brewfile" | quote }}
+brew bundle --file={{ joinPath .chezmoi.sourceDir $profileBrewfile | quote }}
 {{ end -}}
