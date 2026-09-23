@@ -65,6 +65,7 @@ You will be prompted for:
 | Package | Description |
 |---------|-------------|
 | aws-cli | AWS CLI |
+| claude | Claude Code |
 | fzf | Fuzzy finder |
 | gh | GitHub CLI |
 | ghq | Repository manager |
@@ -78,6 +79,7 @@ You will be prompted for:
 |---------|-------------|
 | ghostty | Terminal emulator |
 | google-chrome | Web browser |
+| orca | Agent development environment (stablyai/orca tap) |
 | raycast | Launcher |
 
 ## Usage

@@ -1,5 +1,6 @@
 [tools]
 aws-cli = "latest"
+claude = "latest"
 fzf = "latest"
 gh = "latest"
 ghq = "latest"
