@@ -72,6 +72,7 @@ You will be prompted for:
 | jq | JSON processor |
 | node | Node.js |
 | starship | Modern shell prompt |
+| uv | Python package manager (used by the natural-japanese skill) |
 
 ### Brewfile (macOS)
 
@@ -88,7 +89,8 @@ You will be prompted for:
 
 | Key | Value |
 |-----|-------|
-| `enabledPlugins` | [`mattpocock-skills@claude-plugins-official`](https://github.com/mattpocock/skills) |
+| `extraKnownMarketplaces` | `natural-japanese` (github: `coji/natural-japanese`) |
+| `enabledPlugins` | [`mattpocock-skills@claude-plugins-official`](https://github.com/mattpocock/skills), [`natural-japanese@natural-japanese`](https://github.com/coji/natural-japanese) |
 
 ## Usage
 

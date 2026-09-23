@@ -13,5 +13,9 @@ if [ ! -x "$jq_bin" ]; then
 fi
 
 printf '%s\n' "$input" | "$jq_bin" '
-  .enabledPlugins["mattpocock-skills@claude-plugins-official"] = true
+  .extraKnownMarketplaces["natural-japanese"] = {
+    "source": { "source": "github", "repo": "coji/natural-japanese" }
+  }
+  | .enabledPlugins["mattpocock-skills@claude-plugins-official"] = true
+  | .enabledPlugins["natural-japanese@natural-japanese"] = true
 '

@@ -53,6 +53,7 @@ jobs:
 
           # Verify Claude Code plugins are enabled
           jq -e '.enabledPlugins["mattpocock-skills@claude-plugins-official"] == true' $HOME/.claude/settings.json || { echo "ERROR: mattpocock-skills not enabled in .claude/settings.json"; exit 1; }
+          jq -e '.enabledPlugins["natural-japanese@natural-japanese"] == true and .extraKnownMarketplaces["natural-japanese"].source.repo == "coji/natural-japanese"' $HOME/.claude/settings.json || { echo "ERROR: natural-japanese not enabled in .claude/settings.json"; exit 1; }
 
           echo "All verifications passed"
 
@@ -80,6 +81,7 @@ jobs:
             command -v jq
             command -v node
             command -v starship
+            command -v uv
           "
           echo "mise verification passed"
 
