@@ -77,6 +77,7 @@ You will be prompted for:
 | Package | Description |
 |---------|-------------|
 | ghostty | Terminal emulator |
+| google-chrome | Web browser |
 | raycast | Launcher |
 
 ## Usage
