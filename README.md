@@ -24,18 +24,27 @@ Zsh + fzf + modern CLI tools for a productive developer environment.
 
 ### Prerequisites
 
-```bash
-# macOS
-brew install chezmoi
+#### macOS
 
-# Linux/Windows
+Install [Homebrew](https://brew.sh/), then chezmoi:
+
+```bash
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+eval "$(/opt/homebrew/bin/brew shellenv)"  # make brew available in the current shell
+
+brew install chezmoi
+```
+
+#### Linux/Windows
+
+```bash
 sh -c "$(curl -fsLS get.chezmoi.io)"
 ```
 
 ### Apply Dotfiles
 
 ```bash
-chezmoi init --apply <repository-url>
+chezmoi init --apply https://github.com/charden/dotfiles.git
 ```
 
 You will be prompted for:
