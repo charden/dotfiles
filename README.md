@@ -24,18 +24,27 @@ Zsh + fzf + modern CLI tools for a productive developer environment.
 
 ### Prerequisites
 
-```bash
-# macOS
-brew install chezmoi
+#### macOS
 
-# Linux/Windows
+Install [Homebrew](https://brew.sh/), then chezmoi:
+
+```bash
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+eval "$(/opt/homebrew/bin/brew shellenv)"  # make brew available in the current shell
+
+brew install chezmoi
+```
+
+#### Linux/Windows
+
+```bash
 sh -c "$(curl -fsLS get.chezmoi.io)"
 ```
 
 ### Apply Dotfiles
 
 ```bash
-chezmoi init --apply <repository-url>
+chezmoi init --apply https://github.com/charden/dotfiles.git
 ```
 
 You will be prompted for:
@@ -44,20 +53,34 @@ You will be prompted for:
 
 ### Install Packages
 
-```bash
-brew bundle --file=~/dotfiles/Brewfile
-```
+`chezmoi apply` installs packages automatically:
 
-## Included Packages (Brewfile)
+- CLI tools are installed with [mise](https://mise.jdx.dev/) from `~/.config/mise/config.toml` (`run_after_install-mise.sh`)
+- On macOS, apps mise cannot install are installed with `brew bundle` from `Brewfile` (`run_onchange_after_install-brew-packages.sh.tmpl`, re-runs whenever `Brewfile` changes; skipped if Homebrew is missing)
+
+## Included Packages
+
+### mise
 
 | Package | Description |
 |---------|-------------|
+| aws-cli | AWS CLI |
+| claude | Claude Code |
 | fzf | Fuzzy finder |
+| gh | GitHub CLI |
 | ghq | Repository manager |
 | jq | JSON processor |
+| node | Node.js |
 | starship | Modern shell prompt |
-| tmux | Terminal multiplexer |
-| wget | File downloader |
+
+### Brewfile (macOS)
+
+| Package | Description |
+|---------|-------------|
+| ghostty | Terminal emulator |
+| google-chrome | Web browser |
+| orca | Agent development environment (stablyai/orca tap) |
+| raycast | Launcher |
 
 ## Usage
 
@@ -84,10 +107,14 @@ chezmoi edit ~/.zshrc
 .
 ├── .chezmoi.toml.tmpl    # Chezmoi config (git credentials)
 ├── .chezmoiignore        # Files to exclude
-├── Brewfile              # Homebrew packages
+├── Brewfile              # Homebrew casks (mise で入らないもの)
+├── run_after_install-mise.sh                        # Installs mise + tools
+├── run_onchange_after_install-brew-packages.sh.tmpl # brew bundle (macOS)
 ├── dot_gitconfig.tmpl    # Git configuration
 ├── dot_zshrc             # Main Zsh config
 └── dot_config/
+    ├── mise/
+    │   └── config.toml   # mise tools
     ├── zsh/
     │   ├── aliases.zsh   # Command aliases
     │   ├── functions.zsh # Custom functions & key bindings
