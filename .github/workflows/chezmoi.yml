@@ -9,6 +9,9 @@ on:
     branches:
       - main
 
+permissions:
+  contents: read
+
 jobs:
   chezmoi-apply:
     strategy:
@@ -16,6 +19,9 @@ jobs:
         os: [ubuntu-latest, macos-latest]
         shell: [bash, zsh]
     runs-on: ${{ matrix.os }}
+    env:
+      # mise の GitHub API 呼び出しを認証し、未認証時のレート制限（60回/時）を避ける
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v6
