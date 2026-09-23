@@ -72,6 +72,7 @@ You will be prompted for:
 | jq | JSON processor |
 | node | Node.js |
 | starship | Modern shell prompt |
+| uv | Python package manager (used by the natural-japanese skill) |
 
 ### Brewfile (macOS)
 
@@ -81,6 +82,15 @@ You will be prompted for:
 | google-chrome | Web browser |
 | orca | Agent development environment (stablyai/orca tap) |
 | raycast | Launcher |
+
+## Claude Code
+
+`~/.claude/settings.json` is also edited by Claude Code itself, so it is not managed as a whole. `dot_claude/modify_settings.json` only adds the keys below and keeps everything else:
+
+| Key | Value |
+|-----|-------|
+| `extraKnownMarketplaces` | `natural-japanese` (github: `coji/natural-japanese`) |
+| `enabledPlugins` | [`mattpocock-skills@claude-plugins-official`](https://github.com/mattpocock/skills), [`natural-japanese@natural-japanese`](https://github.com/coji/natural-japanese) |
 
 ## Usage
 

@@ -9,6 +9,9 @@ on:
     branches:
       - main
 
+permissions:
+  contents: read
+
 jobs:
   chezmoi-apply:
     strategy:
@@ -16,6 +19,9 @@ jobs:
         os: [ubuntu-latest, macos-latest]
         shell: [bash, zsh]
     runs-on: ${{ matrix.os }}
+    env:
+      # mise の GitHub API 呼び出しを認証し、未認証時のレート制限（60回/時）を避ける
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v6
@@ -51,6 +57,10 @@ jobs:
           grep -q "ci-test@example.com" $HOME/.gitconfig || { echo "ERROR: gitEmail not expanded in .gitconfig"; exit 1; }
           grep -q "ci-test" $HOME/.gitconfig || { echo "ERROR: gitUsername not expanded in .gitconfig"; exit 1; }
 
+          # Verify Claude Code plugins are enabled
+          jq -e '.enabledPlugins["mattpocock-skills@claude-plugins-official"] == true' $HOME/.claude/settings.json || { echo "ERROR: mattpocock-skills not enabled in .claude/settings.json"; exit 1; }
+          jq -e '.enabledPlugins["natural-japanese@natural-japanese"] == true and .extraKnownMarketplaces["natural-japanese"].source.repo == "coji/natural-japanese"' $HOME/.claude/settings.json || { echo "ERROR: natural-japanese not enabled in .claude/settings.json"; exit 1; }
+
           echo "All verifications passed"
 
       - name: Verify zsh config syntax
@@ -77,6 +87,7 @@ jobs:
             command -v jq
             command -v node
             command -v starship
+            command -v uv
           "
           echo "mise verification passed"
 

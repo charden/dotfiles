@@ -1,0 +1,21 @@
+#!/bin/bash
+# ~/.claude/settings.json は Claude Code も書き換えるため、管理したいキーだけ追加する
+
+input=$(cat)
+[ -z "$input" ] && input='{}'
+
+jq_bin=$(command -v jq || echo "$HOME/.local/share/mise/shims/jq")
+if [ ! -x "$jq_bin" ]; then
+  # 初回 apply では mise の jq がまだ入っていないので、何も変更しない
+  echo "jq not found. Skipping ~/.claude/settings.json" >&2
+  printf '%s\n' "$input"
+  exit 0
+fi
+
+printf '%s\n' "$input" | "$jq_bin" '
+  .extraKnownMarketplaces["natural-japanese"] = {
+    "source": { "source": "github", "repo": "coji/natural-japanese" }
+  }
+  | .enabledPlugins["mattpocock-skills@claude-plugins-official"] = true
+  | .enabledPlugins["natural-japanese@natural-japanese"] = true
+'
