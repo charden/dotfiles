@@ -1,178 +1,42 @@
-# CLAUDE.md - AI Assistant Guide for Dotfiles Repository
+# CLAUDE.md
 
-This document provides essential information for AI assistants working with this dotfiles repository.
+This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
 ## Overview
 
-This is a personal dotfiles repository managed with **chezmoi**. It configures a developer environment with Zsh, Git, and modern CLI tools focused on productivity through fuzzy finding and git workflow optimization.
+Personal dotfiles managed with **chezmoi**. The repo root is the chezmoi source directory: `dot_` maps to `.`, `.tmpl` files are rendered with Go templates, and `run_after_*` scripts run after every `chezmoi apply`. Always edit files here, never the applied copies in `$HOME`.
 
-## Repository Structure
+Note: `README.md` is partly stale. It still describes a Brewfile, but tools are now managed by mise (`dot_config/mise/config.toml`).
 
-```
-/home/user/dotfiles/
-├── .chezmoi.toml.tmpl      # Chezmoi config template (prompts for git credentials)
-├── .chezmoiignore          # Files excluded from chezmoi apply
-├── run_after_install-mise.sh # Installs mise and tools after chezmoi apply
-├── README.md               # User documentation
-├── CLAUDE.md               # This file - AI assistant guide
-├── dot_gitconfig.tmpl      # Git config template (uses chezmoi variables)
-├── dot_zshrc               # Main Zsh configuration
-└── dot_config/
-    ├── mise/
-    │   └── config.toml     # mise tool versions
-    ├── zsh/
-    │   ├── aliases.zsh     # Command aliases (conditional on eza availability)
-    │   ├── functions.zsh   # Custom functions (fzf integrations, key bindings)
-    │   └── path.zsh        # PATH configuration
-    └── git/
-        └── ignore          # Global gitignore patterns
-```
+## Commands
 
-## Chezmoi Conventions
-
-### File Naming
-- `dot_` prefix maps to `.` in target (e.g., `dot_zshrc` → `~/.zshrc`)
-- `dot_config/` maps to `~/.config/`
-- `.tmpl` suffix indicates template files processed by chezmoi
-
-### Template Variables
-Templates use Go template syntax with these variables:
-- `{{ .gitUsername }}` - GitHub username (prompted on first run)
-- `{{ .gitEmail }}` - GitHub email (prompted on first run)
-
-### Key Commands
 ```bash
-chezmoi diff          # Preview changes before applying
-chezmoi apply         # Apply dotfiles to home directory
-chezmoi add <file>    # Add a file to the repository
-chezmoi cd            # Navigate to source directory
+chezmoi diff                                   # preview what apply would change
+chezmoi apply --dry-run -v                     # safe apply test
+chezmoi execute-template < dot_gitconfig.tmpl  # render a template
+chezmoi managed --include=scripts              # check which run_ scripts chezmoi will execute
+zsh -n ~/.zshrc                                # syntax check (CI does this for each zsh file)
 ```
 
-## Development Workflow
-
-### Adding New Configuration
-1. Add the file with `chezmoi add ~/.config/newfile`
-2. Edit in the chezmoi source directory
-3. Use `chezmoi diff` to verify changes
-4. Commit and push changes
-
-### Modifying Existing Files
-1. Edit files directly in this repository (not in home directory)
-2. Use `chezmoi apply` to apply changes
-3. Test the configuration
-4. Commit changes
-
-### Template Files
-When modifying `.tmpl` files:
-- Ensure Go template syntax is valid
-- Test with `chezmoi execute-template < file.tmpl`
-- Variables are defined in `.chezmoi.toml.tmpl`
-
-## Shell Configuration Details
-
-### Zsh Options (dot_zshrc)
-- `auto_cd` - Change directory by typing path only
-- `auto_pushd` - Automatic directory stack
-- `correct` - Command spelling correction
-- `hist_ignore_dups` - No duplicate history entries
-- History size: 10,000 entries
-
-### PATH Priority (dot_config/zsh/path.zsh)
-1. `~/.local/bin` - Local user binaries
-2. `~/brew/bin` - Homebrew binaries
-3. `~/.cargo/bin` - Rust/Cargo binaries
-4. `~/.volta/bin` - Volta (Node.js version manager)
-5. `~/bin` - User binaries
-
-### Tool Management with mise
-Tools are managed using **mise** (a polyglot tool version manager):
-
-**Tools** (`~/.config/mise/config.toml`):
-- `fzf` - Fuzzy finder
-- `ghq` - Repository manager
-- `jq` - JSON processor
-- `starship` - Shell prompt
-
-mise is automatically installed via `run_after_install-mise.sh` when running `chezmoi apply`.
-
-Key mise commands:
+To reproduce CI locally in a throwaway home, set the template variables through env vars so no prompts appear:
 ```bash
-mise install           # Install tools defined in config
-mise use <tool>@latest # Add a tool to config
-mise list              # List installed tools
-mise upgrade           # Upgrade all tools
+GIT_USERNAME=ci-test GIT_EMAIL=ci-test@example.com chezmoi init --apply -S .
 ```
 
-### Keyboard Bindings (dot_config/zsh/functions.zsh)
-| Key       | Function              | Description                              |
-|-----------|-----------------------|------------------------------------------|
-| `Ctrl+G`  | ghq-fzf               | Navigate to ghq-managed repositories     |
-| `Ctrl+R`  | fzf-select-history    | Fuzzy search command history             |
-| `Ctrl+F`  | fzf-cdr               | Fuzzy search recent directories          |
-| `Ctrl+B`  | git-branch-fzf        | Fuzzy search and switch git branches     |
+## Architecture
 
-### Aliases (dot_config/zsh/aliases.zsh)
-Conditional on `eza` availability:
-- `ls` → `eza --icons --git` (or standard `ls`)
-- `ll` → `eza --icons --git -l` (or `ls -l`)
-- `la` → `eza --icons --git -la` (or `ls -la`)
+**Bootstrap flow:** `.chezmoi.toml.tmpl` resolves `gitUsername`/`gitEmail` from the `GIT_USERNAME`/`GIT_EMAIL` env vars, or falls back to `promptStringOnce`. Those values feed `dot_gitconfig.tmpl`. After apply, `run_after_install-mise.sh` installs mise with `curl https://mise.run | sh` if needed. It then sources the rc file for the current `$SHELL` (zsh or bash) and runs `mise install` from `dot_config/mise/config.toml`.
 
-## Important Patterns
+**Shell support:** zsh is the main shell. `dot_zshrc` sources `~/.config/zsh/{path,aliases,functions}.zsh` and activates mise, mise completions and starship. `dot_bashrc` is intentionally minimal and only activates mise, so the bash CI matrix can install and find the tools. If you add a mise tool that CI checks, both rc files must still expose it.
 
-### Conditional Tool Detection
-Always check tool availability before using in aliases/functions:
-```bash
-if [ -x "`which tool 2>/dev/null`" ]; then
-  # Use modern tool
-else
-  # Fallback to standard command
-fi
-```
+**`.chezmoiignore` matches target names, not source names**, and it also applies to scripts. An entry such as `install-mise.sh` stops `run_after_install-mise.sh` from running. Check with `chezmoi managed --include=scripts` after editing it.
 
-### fzf Integration Pattern
-Functions follow a consistent pattern:
-1. Get selection from fzf
-2. Check if selection is non-empty
-3. Execute command or set BUFFER for zle
-4. Reset prompt if using zle
+**CI** (`.github/workflows/chezmoi.yml`) runs on pushes to `main` and `claude/**` and on PRs to `main`. It covers {ubuntu, macos} × {bash, zsh} and runs `chezmoi init --apply -S .`. It then asserts that the expected files exist, that the template variables expanded in `.gitconfig`, that `zsh -n` passes, and that `mise doctor` succeeds with `fzf`/`ghq`/`jq`/`starship` on PATH. When you add a new managed file or mise tool, add it to the workflow's checks.
 
-## Files Ignored by Chezmoi
-Listed in `.chezmoiignore`:
-- `README.md` - Not applied as dotfile
+## Conventions
 
-## Global Gitignore Patterns
-Listed in `dot_config/git/ignore`:
-- `.DS_Store` - macOS system files
-- `**/.claude/settings.local.json` - Claude local settings
-
-## Language and Locale
-- System locale: `ja_JP.UTF-8` (Japanese)
-- Commit messages may be in Japanese or English
-
-## Guidelines for AI Assistants
-
-### When Adding New Features
-1. Follow existing code style and patterns
-2. Use conditional checks for optional tools
-3. Add fzf integration for interactive selection where appropriate
-4. Document new keyboard bindings in this file
-
-### When Modifying Shell Config
-1. Keep configurations modular (separate files in `dot_config/zsh/`)
-2. Source new files from `dot_zshrc`
-3. Test with `source ~/.zshrc` or new shell
-
-### When Working with Templates
-1. Never hardcode user-specific values
-2. Add new template variables to `.chezmoi.toml.tmpl`
-3. Use `promptStringOnce` for values needed only once
-
-### Commit Messages
-- Can be in English or Japanese
-- Keep messages concise and descriptive
-- Reference the feature or fix clearly
-
-### Testing Changes
-1. Use `chezmoi diff` to preview
-2. Use `chezmoi apply --dry-run` for safe testing
-3. Apply and verify in a new shell session
+- Put zsh config in a separate file under `dot_config/zsh/` and source it from `dot_zshrc`.
+- Guard optional tools before using them, for example `command -v tool &> /dev/null` or the `which` check in `aliases.zsh`, and provide a fallback.
+- zle widgets in `functions.zsh` follow one pattern: pipe candidates into `fzf`, return early if nothing was selected, set `BUFFER` (and `zle accept-line` if the command should run), then reset or redraw the prompt. Register the widget with `zle -N` and `bindkey`. The current bindings are `^g` for ghq repos, `^r` for history, `^f` for cdr recent dirs and `^b` for git branches. Update README's shortcut table when you change them.
+- Never hardcode user-specific values in templates. Add new variables to `.chezmoi.toml.tmpl` using the `or (env ...) (promptStringOnce ...)` pattern so CI can supply them.
+- Commit messages may be in Japanese or English. The locale is `ja_JP.UTF-8`.
