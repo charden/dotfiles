@@ -1,0 +1,6 @@
+# Profile-specific tools (profile: {{ .profile }})
+# Shared tools are in ~/.config/mise/config.toml
+[tools]
+{{- if eq .profile "work" }}
+{{- else if eq .profile "personal" }}
+{{- end }}

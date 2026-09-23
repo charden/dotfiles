@@ -50,6 +50,22 @@ chezmoi init --apply https://github.com/charden/dotfiles.git
 You will be prompted for:
 - GitHub username
 - GitHub email
+- Profile (`personal` or `work`)
+
+## Profiles (work / personal)
+
+Each machine picks one profile on `chezmoi init`. Shared settings stay in the usual files; profile-specific settings go here:
+
+| What | Where |
+|------|-------|
+| zsh | `dot_config/zsh/profile.zsh.tmpl` (`{{ if eq .profile "work" }}` blocks) |
+| mise tools | `dot_config/mise/conf.d/profile.toml.tmpl` (loaded in addition to `config.toml`) |
+| Homebrew (macOS) | `Brewfile.work` / `Brewfile.personal` (installed after the shared `Brewfile`) |
+| Anything else | Use `{{ if eq .profile "work" }}` in any `.tmpl` file, or list profile-only files in `.chezmoiignore` |
+
+To change the profile of a machine, rerun `chezmoi init --prompt` (or set `DOTFILES_PROFILE=work`) and then `chezmoi apply`.
+
+Machines set up before profiles existed must run `chezmoi init` once to pick a profile; until then `chezmoi apply` fails with `map has no entry for key "profile"`.
 
 ### Install Packages
 
@@ -118,6 +134,8 @@ chezmoi edit ~/.zshrc
 ├── .chezmoi.toml.tmpl    # Chezmoi config (git credentials)
 ├── .chezmoiignore        # Files to exclude
 ├── Brewfile              # Homebrew casks (mise で入らないもの)
+├── Brewfile.work         # Homebrew casks (work profile only)
+├── Brewfile.personal     # Homebrew casks (personal profile only)
 ├── run_after_install-mise.sh                        # Installs mise + tools
 ├── run_onchange_after_install-brew-packages.sh.tmpl # brew bundle (macOS)
 ├── dot_gitconfig.tmpl    # Git configuration

@@ -59,3 +59,6 @@ source ~/.config/zsh/aliases.zsh
 
 # Functions
 source ~/.config/zsh/functions.zsh
+
+# Profile-specific settings (work / personal)
+source ~/.config/zsh/profile.zsh

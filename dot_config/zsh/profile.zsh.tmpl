@@ -1,0 +1,6 @@
+# Profile-specific settings (profile: {{ .profile }})
+{{- if eq .profile "work" }}
+# work
+{{- else if eq .profile "personal" }}
+# personal
+{{- end }}

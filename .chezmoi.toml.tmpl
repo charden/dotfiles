@@ -1,6 +1,12 @@
 {{- $gitUsername := or (env "GIT_USERNAME") (promptStringOnce . "gitUsername" "GitHub username") -}}
 {{- $gitEmail := or (env "GIT_EMAIL") (promptStringOnce . "gitEmail" "GitHub email") -}}
+{{- $profiles := list "personal" "work" -}}
+{{- $profile := or (env "DOTFILES_PROFILE") (promptChoiceOnce . "profile" "Profile" $profiles) -}}
+{{- if not (has $profile $profiles) -}}
+{{-   fail (printf "unknown profile %q (expected one of: %s)" $profile (join ", " $profiles)) -}}
+{{- end -}}
 
 [data]
 gitUsername = {{ $gitUsername | quote }}
 gitEmail = {{ $gitEmail | quote }}
+profile = {{ $profile | quote }}
