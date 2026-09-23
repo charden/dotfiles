@@ -82,6 +82,14 @@ You will be prompted for:
 | orca | Agent development environment (stablyai/orca tap) |
 | raycast | Launcher |
 
+## Claude Code
+
+`~/.claude/settings.json` is also edited by Claude Code itself, so it is not managed as a whole. `dot_claude/modify_settings.json` only adds the keys below and keeps everything else:
+
+| Key | Value |
+|-----|-------|
+| `enabledPlugins` | [`mattpocock-skills@claude-plugins-official`](https://github.com/mattpocock/skills) |
+
 ## Usage
 
 ```bash
