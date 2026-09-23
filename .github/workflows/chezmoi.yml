@@ -69,9 +69,16 @@ jobs:
             source $HOME/.${{ matrix.shell }}rc
             mise doctor
             mise list
+            command -v aws
             command -v fzf
+            command -v gh
             command -v ghq
             command -v jq
+            command -v node
             command -v starship
           "
           echo "mise verification passed"
+
+      - name: Verify Brewfile
+        if: matrix.os == 'macos-latest'
+        run: brew bundle list --all --file=Brewfile

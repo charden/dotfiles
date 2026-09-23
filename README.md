@@ -44,20 +44,31 @@ You will be prompted for:
 
 ### Install Packages
 
-```bash
-brew bundle --file=~/dotfiles/Brewfile
-```
+`chezmoi apply` installs packages automatically:
 
-## Included Packages (Brewfile)
+- CLI tools are installed with [mise](https://mise.jdx.dev/) from `~/.config/mise/config.toml` (`run_after_install-mise.sh`)
+- On macOS, apps mise cannot install are installed with `brew bundle` from `Brewfile` (`run_onchange_after_install-brew-packages.sh.tmpl`, re-runs whenever `Brewfile` changes; skipped if Homebrew is missing)
+
+## Included Packages
+
+### mise
 
 | Package | Description |
 |---------|-------------|
+| aws-cli | AWS CLI |
 | fzf | Fuzzy finder |
+| gh | GitHub CLI |
 | ghq | Repository manager |
 | jq | JSON processor |
+| node | Node.js |
 | starship | Modern shell prompt |
-| tmux | Terminal multiplexer |
-| wget | File downloader |
+
+### Brewfile (macOS)
+
+| Package | Description |
+|---------|-------------|
+| ghostty | Terminal emulator |
+| raycast | Launcher |
 
 ## Usage
 
@@ -84,10 +95,14 @@ chezmoi edit ~/.zshrc
 .
 ├── .chezmoi.toml.tmpl    # Chezmoi config (git credentials)
 ├── .chezmoiignore        # Files to exclude
-├── Brewfile              # Homebrew packages
+├── Brewfile              # Homebrew casks (mise で入らないもの)
+├── run_after_install-mise.sh                        # Installs mise + tools
+├── run_onchange_after_install-brew-packages.sh.tmpl # brew bundle (macOS)
 ├── dot_gitconfig.tmpl    # Git configuration
 ├── dot_zshrc             # Main Zsh config
 └── dot_config/
+    ├── mise/
+    │   └── config.toml   # mise tools
     ├── zsh/
     │   ├── aliases.zsh   # Command aliases
     │   ├── functions.zsh # Custom functions & key bindings
