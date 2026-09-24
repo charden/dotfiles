@@ -1,1 +1,7 @@
 # 仕事用の Brewfile（共通は Brewfile）
+tap "fujiwara/tap"
+
+brew "fujiwara/tap/cfft"
+
+cask "rancher"
+cask "sequel-ace"

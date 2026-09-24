@@ -81,23 +81,45 @@ Machines set up before profiles existed must run `chezmoi init` once to pick a p
 | Package | Description |
 |---------|-------------|
 | aws-cli | AWS CLI |
+| cargo:nippo | Daily report generator from Claude Code / Codex logs (used by the nippo skill) |
 | claude | Claude Code |
+| ecspresso | Amazon ECS deployment tool |
 | fzf | Fuzzy finder |
+| gcloud | Google Cloud CLI |
 | gh | GitHub CLI |
 | ghq | Repository manager |
 | jq | JSON processor |
 | node | Node.js |
+| ruby | Ruby |
 | starship | Modern shell prompt |
+| terraform | Infrastructure as code |
 | uv | Python package manager (used by the natural-japanese skill) |
 
 ### Brewfile (macOS)
 
 | Package | Description |
 |---------|-------------|
+| chezmoi | Dotfiles manager (also used for the first install) |
+| docker | Docker CLI (with docker-credential-helper) |
 | ghostty | Terminal emulator |
 | google-chrome | Web browser |
+| google-japanese-ime | Japanese input method |
+| notion | Notes and docs |
+| obsidian | Markdown notes |
 | orca | Agent development environment (stablyai/orca tap) |
 | raycast | Launcher |
+| session-manager-plugin | AWS Session Manager plugin for the AWS CLI |
+| visual-studio-code | Code editor |
+| wget | File downloader |
+
+### Work profile only
+
+| Package | Via | Description |
+|---------|-----|-------------|
+| tbls | mise | Database documentation tool |
+| cfft | Brewfile.work (fujiwara/tap) | CloudFront Functions test tool |
+| rancher | Brewfile.work | Rancher Desktop (container runtime) |
+| sequel-ace | Brewfile.work | MySQL GUI client |
 
 ## Claude Code
 
@@ -133,8 +155,8 @@ chezmoi edit ~/.zshrc
 .
 ├── .chezmoi.toml.tmpl    # Chezmoi config (git credentials)
 ├── .chezmoiignore        # Files to exclude
-├── Brewfile              # Homebrew casks (mise で入らないもの)
-├── Brewfile.work         # Homebrew casks (work profile only)
+├── Brewfile              # Homebrew packages (mise で入らないもの)
+├── Brewfile.work         # Homebrew packages (work profile only)
 ├── Brewfile.personal     # Homebrew casks (personal profile only)
 ├── run_after_install-mise.sh                        # Installs mise + tools
 ├── run_onchange_after_install-brew-packages.sh.tmpl # brew bundle (macOS)
