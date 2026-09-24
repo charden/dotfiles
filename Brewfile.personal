@@ -1,2 +1,3 @@
 # 私用の Brewfile（共通は Brewfile）
 cask "1password"
+cask "tailscale-app"
