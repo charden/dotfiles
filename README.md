@@ -188,7 +188,8 @@ Priority order (highest first):
 2. `~/brew/bin`
 3. `~/.cargo/bin` (Rust)
 4. `~/.volta/bin` (Node.js)
-5. `~/bin`
+5. `~/.bun/bin` (Bun)
+6. `~/bin`
 
 ## License
 
