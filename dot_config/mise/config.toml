@@ -3,6 +3,7 @@ minimum_release_age = "3d"
 
 [tools]
 aws-cli = "latest"
+bun = "latest"
 "cargo:nippo" = "latest"
 claude = "latest"
 ecspresso = "latest"

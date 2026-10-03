@@ -88,6 +88,7 @@ jobs:
             mise doctor
             mise list
             command -v aws
+            command -v bun
             command -v claude
             command -v ecspresso
             command -v fzf

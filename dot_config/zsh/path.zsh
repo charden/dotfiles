@@ -6,6 +6,7 @@ path=(
   $HOME/brew/bin
   $HOME/.cargo/bin
   $HOME/.volta/bin
+  $HOME/.bun/bin
   $HOME/bin
   $path
 )
