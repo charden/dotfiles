@@ -97,6 +97,7 @@ jobs:
             command -v jq
             command -v nippo
             command -v node
+            command -v ollama
             command -v ruby
             command -v starship
             command -v terraform
