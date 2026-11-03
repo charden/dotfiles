@@ -3,4 +3,9 @@
 # work
 {{- else if eq .profile "personal" }}
 # personal
+# gbrain doctor の multi_source_drift は既定で 1 ソースあたり 1 万ファイル・5 秒で数えるのをやめ、
+# 「判定不能」の WARN を出す。私用の brain は raw/web の記事全文だけで 7,500 本を超えるので上限を上げる
+# （30000 / 60s で 0.7 秒、ずれなしを確認）。
+export GBRAIN_DRIFT_LIMIT=30000
+export GBRAIN_DRIFT_TIMEOUT_MS=60000
 {{- end }}
