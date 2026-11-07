@@ -12,6 +12,12 @@ if command -v mise &> /dev/null; then
   eval "$(mise activate zsh)"
 fi
 
+# gh を GitHub App のトークン（ghtkn）で動かす差し替えがあれば、mise の gh より先に置く
+# （差し替えの本体は grimoire の ops/ghtkn-gh.sh。ないマシンでは何もしない）
+if [ -x "$HOME/.local/libexec/ghtkn/gh" ]; then
+  path=("$HOME/.local/libexec/ghtkn" $path)
+fi
+
 # auto change directory
 #
 setopt auto_cd
